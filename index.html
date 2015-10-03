@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Pack wars</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script type="text/javascript" src="packwars.js"></script>
+  <script type="text/javascript">
+    var simulator;
+    var mtgJSON = function(json){
+      simulator = new PackWarsSimulator(json);
+    }
+  </script>
+  <script type="text/javascript" src="AllSets.jsonp"></script>
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns" style="margin-top: 25%">
+        <h4>Pack Wars Simulator</h4>
+        <p>Choose a set for one or two packs, then click the big download button.</p>
+        <p>This simulator builds packs with ten commons, three uncommons, and one rare (or mythic rare &#8539; of the time).
+        Obviously, this isn't precise for all sets, but it's good enough for playing.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="six columns">
+        <label for="set1">Set</label>
+        <select id="set1" class="u-full-width" id="exampleRecipientInput">
+        </select>
+      </div>
+      <div class="six columns">
+        <label for="set2">Set</label>
+        <select id="set2" class="u-full-width" id="exampleRecipientInput">
+          <option value=""></option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="twelve columns" style="margin-top: 5%">
+        <a id="download" class="button button-primary u-full-width">Download deck (.dec)</a>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    
+    // add sets to set selector
+    var setNames = simulator.setNames();
+    var set1 = document.getElementById("set1");
+    var set2 = document.getElementById("set2");
+    for (i = 0; i < setNames.length; i++){
+      var opt = document.createElement('option');
+      opt.appendChild( document.createTextNode(setNames[i].name));
+      opt.value = setNames[i].key;
+      set1.appendChild(opt);
+
+      var opt = document.createElement('option');
+      opt.appendChild( document.createTextNode(setNames[i].name));
+      opt.value = setNames[i].key;
+      set2.appendChild(opt);
+    }
+    // register events
+    var update = function() {
+      var packs = [simulator.makePack(set1.value | 0)];
+      if (set2.value) {
+        packs.push(simulator.makePack(set2.value | 0));
+      }
+      var button = document.getElementById("download");
+      download.href="data:application/octet-stream;charset=utf-8;base64," + btoa(simulator.makeDeck(packs));
+      download.download="packwars_" + Math.floor(Math.random()*10000) + ".dec"
+    }
+    set1.onchange = update;
+    set2.onchange = update;
+    // update link now
+    update();
+
+
+  </script>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
