@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
 
-"""
-{"KEY":{
-        "name": "Name",
-        "mythics": ["a", "b", ...],
-        "rares": ["a", "b", ...],
-        "uncommons": ["a", "b", ...],
-        "commons": ["a", "b", ...]
-    }, ...}
-"""
-
 def make_name(block, name):
     if not block or block == name: 
         return name
