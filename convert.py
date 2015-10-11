@@ -31,7 +31,7 @@ def convert_set(data):
 
 def convert(data):
     types = ('expansion', 'core', 'un')
-    sets = [set for set in data.values() if set['type'] in types]
+    sets = [set for set in data.values() if set['type'] in types and 'booster' in set]
     sets.sort(key=lambda set: set.get('releaseDate', 0))
     return [convert_set(set) for set in sets[::-1]]
 
