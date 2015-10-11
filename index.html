@@ -86,9 +86,9 @@
     }
     // register events
     var update = function() {
-      var packs = [simulator.makePack(set1.value | 0)];
+      var idxs = [set1.value | 0];
       if (set2.value) {
-        packs.push(simulator.makePack(set2.value | 0));
+        idxs.push(set2.value | 0);
       }
       var button = document.getElementById("download");
 
