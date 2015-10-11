@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 
 def make_name(block, name):
+    """
+    >>> make_name("Shadowmoor", "Eventide")
+    "Shadowmoor - Eventide"
+    >>> make_name("Shards of Alara", "Shards of Alara")
+    "Shards of Alara"
+    """
     if not block or block == name: 
         return name
     return "{block} - {name}".format(block=block, name=name)
