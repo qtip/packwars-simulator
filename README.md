@@ -1,7 +1,8 @@
 # packwars-simulator
 Packwars (aka Mini-Master) Simulator
 
-This simulator builds packs with ten commons, three uncommons, and one rare (or mythic rare ⅛ of the time). Obviously, this isn't precise for all sets, but it's good enough for playing.
+This simulator takes one or more sets as input, randomly generates boosters for those sets,
+adds an appropriate amount of lands, then builds a .dec file.
 
 # Install
 ```sh
