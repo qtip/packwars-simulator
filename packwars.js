@@ -67,22 +67,44 @@ PackWarsSimulator.sample = function(array, n) {
     return out;
 }
 
+PackWarsSimulator.prototype.makeBoosterCountThing = function(setIdx) {
+    /*
+     * Go from [{"common": 1.0}, {"common": 1.0}]
+     * To {"common": 2}
+     * That is, take a booster format and choose cards from each then
+     * count how many of each card type was chosen
+     */
+    var boosterFormat = this.sets[setIdx].boosterFormat;
+    var i;
+    var out = {};
+    for (i = 0; i < boosterFormat.length; i++) {
+        var probability_table = boosterFormat[i];
+        // pick from probability table
+        var u = Math.random();
+        var sum = 0.0;
+        for (key in probability_table) {
+            sum += probability_table[key];
+            if (u <= sum) {
+                out[key] = (out[key] || 0) + 1;
+                break;
+            }
+        }
+    }
+    return out;
+}
+
 PackWarsSimulator.prototype.makeBooster = function(setIdx) {
     var sample = PackWarsSimulator.sample;
     var set = this.sets[setIdx];
     var booster = [];
-    for (kind in set.booster) {
-        var count = set.booster[kind]
-        if (kind == "rare/mythic rare") {
-            if (Math.random() > 1/8) {
-                booster = booster.concat(sample(set['rare'], count));
-            } else {
-                booster = booster.concat(sample(set['mythic rare'], count));
-            }
-        } else {
-            booster = booster.concat(sample(set[kind], count));
-        }
+    var boosterCountThing = this.makeBoosterCountThing(setIdx);
+    console.log(boosterCountThing);
+    for (kind in boosterCountThing) {
+        var count = boosterCountThing[kind];
+        console.log(kind, count)
+        booster = booster.concat(sample(set.cardsByType[kind], count));
     }
+    console.log(booster);
     return booster;
 }
 
